@@ -1,37 +1,26 @@
 package model
 
-import (
-	tea "github.com/charmbracelet/bubbletea"
-)
-
-type Mode int
+type mode int
 
 const (
-	Boot Mode = iota
-	Menu
-	Chat
+	boot mode = iota
+	menu
+	chat
+	tooSmall
 )
 
 type Model struct {
-	mode Mode
+	mode     mode
+	lastMode mode
+
+	appWidth int
+
+	viewportWidth  int
+	viewportHeight int
 }
 
-// TODO: breakdown into diffrent files
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg := msg.(type) {
-	case tea.KeyMsg:
-		switch msg.String() {
-		case "ctrl+c", "esc":
-			return m, tea.Quit
-		}
+func DefaultModel() Model {
+	return Model{
+		appWidth: 80,
 	}
-	return m, nil
-}
-
-func (m Model) View() string {
-	return ""
-}
-
-func (m Model) Init() tea.Cmd {
-	return nil
 }
